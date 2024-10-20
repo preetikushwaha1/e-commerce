@@ -53,7 +53,9 @@ def create_product():
 #get all the products
 @app.route('/products', methods=['GET'])
 def get_products():
-    products = Product.query.all()
+    limit = request.args.get('limit', 5, type = int)            #http://127.0.0.1:5000/products?limit=5&skip=0
+    skip = request.args.get('skip', 0, type = int)
+    products = Product.query.offset(skip).limit(limit).all()
     products_data =[]
     if products:
         for product in products:
